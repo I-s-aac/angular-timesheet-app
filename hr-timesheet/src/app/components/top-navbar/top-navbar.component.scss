@@ -1,0 +1,21 @@
+.material-icons {
+  font-size: 35px;
+}
+
+mat-icon {
+  width: 35px;
+  height: 35px;
+  /* for some reason the icon isn't centered in the button, this fixes that */
+  margin-top: -5px;
+  margin-left: -5px;
+}
+
+.mat-icon-button i,
+.mat-icon-button .mat-icon {
+  line-height: 35px;
+}
+
+div {
+  margin-left: 10px;
+  cursor: pointer;
+}
