@@ -22,7 +22,31 @@
         <!-- disabling a button doesn't prevent a user from re-enabling it by modifying the html -->
         <mat-icon>add</mat-icon>
       </button>
-      <div>{{ employees | json }}</div>
+      <!-- <div>{{ employees | json }}</div> -->
+    </mat-card>
+    <mat-card class="hours">
+      <table>
+        <thead>
+          <th>Name</th>
+          <th *ngFor="let day of weekdays">{{ day }}</th>
+          <th>Total Hours</th>
+          <th></th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let employee of employees; let i = index">
+            <td>{{ employee.name }}</td>
+            <td *ngFor="let day of weekdays">
+              <input
+                type="number"
+                [id]="day"
+                [(ngModel)]="employee[day]"
+                class="hours-input"
+              />
+            </td>
+            <td>total, put other stuff here</td>
+          </tr>
+        </tbody>
+      </table>
     </mat-card>
   </div>
 </div>

@@ -20,6 +20,15 @@ export class TimesheetComponent implements OnInit {
   employeeNameFC = new FormControl('', this.nameValidator());
   employees: Employee[] = [];
   employeeId: 0;
+  weekdays: string[] = [
+    'monday',
+    'day2',
+    'weddaynes',
+    'thursd',
+    'fries',
+    'saturn',
+    'sund',
+  ];
 
   ngOnInit(): void {
     this.departments = this.departmentsService.departments;
@@ -36,6 +45,13 @@ export class TimesheetComponent implements OnInit {
         departmentId: this.department?.id,
         name: this.employeeNameFC.value,
         payRate: Math.floor(Math.random() * 50) + 50,
+        monday: 0,
+        day2: 0,
+        weddaynes: 0,
+        thursd: 0,
+        fries: 0,
+        saturn: 0,
+        sund: 0,
       });
 
       this.employeeNameFC.setValue('');
