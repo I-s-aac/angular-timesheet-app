@@ -10,6 +10,10 @@
           type="text"
         />
       </mat-form-field>
+      <button mat-mini-fab color="primary" (click)="addEmployee()">
+        <mat-icon>add</mat-icon>
+      </button>
+      <div>{{ employees | json }}</div>
     </mat-card>
   </div>
 </div>
