@@ -9,8 +9,17 @@
           placeholder="Employee Name"
           type="text"
         />
+        <mat-error *ngIf="employeeNameFC.hasError('duplicate')">
+          you cant have the same name as someone else
+        </mat-error>
       </mat-form-field>
-      <button mat-mini-fab color="primary" (click)="addEmployee()">
+      <button
+        mat-mini-fab
+        color="primary"
+        (click)="addEmployee()"
+        [disabled]="employeeNameFC.invalid"
+      >
+        <!-- disabling a button doesn't prevent a user from re-enabling it by modifying the html -->
         <mat-icon>add</mat-icon>
       </button>
       <div>{{ employees | json }}</div>
