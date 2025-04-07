@@ -4,6 +4,7 @@ import { DepartmentsService } from '../../services/departments.service';
 import { Department } from '../../interfaces/department';
 import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
 import { Employee } from '../../interfaces/employee';
+import { WeekdaysService } from '../../services/weekdays.service';
 
 @Component({
   selector: 'app-timesheet',
@@ -14,21 +15,15 @@ import { Employee } from '../../interfaces/employee';
 export class TimesheetComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private departmentsService = inject(DepartmentsService);
+  private weekdaysService = inject(WeekdaysService);
 
   departments: Department[];
   department: Department | undefined;
+  weekdays: string[] = this.weekdaysService.weekdays;
+
   employeeNameFC = new FormControl('', this.nameValidator());
   employees: Employee[] = [];
   employeeId: 0;
-  weekdays: string[] = [
-    'monday',
-    'day2',
-    'weddaynes',
-    'thursd',
-    'fries',
-    'saturn',
-    'sund',
-  ];
 
   ngOnInit(): void {
     this.departments = this.departmentsService.departments;
