@@ -57,6 +57,9 @@ export class TimesheetComponent implements OnInit {
       this.employeeNameFC.setValue('');
     }
   }
+  deleteEmployee(index: number): void {
+    this.employees.splice(index, 1);
+  }
   nameValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       let error = null;
@@ -71,5 +74,10 @@ export class TimesheetComponent implements OnInit {
       }
       return error;
     };
+  }
+  getTotalHours(e: Employee): number {
+    return (
+      e.monday + e.day2 + e.weddaynes + e.thursd + e.fries + e.saturn + e.sund
+    );
   }
 }
