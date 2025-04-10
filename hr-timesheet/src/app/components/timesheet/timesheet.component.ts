@@ -1,10 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DepartmentsService } from '../../services/departments.service';
 import { Department } from '../../interfaces/department';
 import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
 import { Employee } from '../../interfaces/employee';
 import { WeekdaysService } from '../../services/weekdays.service';
+import { EmployeeService } from '../../services/employee.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-timesheet',
@@ -14,10 +16,12 @@ import { WeekdaysService } from '../../services/weekdays.service';
 })
 export class TimesheetComponent implements OnInit {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private departmentsService = inject(DepartmentsService);
   private weekdaysService = inject(WeekdaysService);
+  private employeeService = inject(EmployeeService);
 
-  departments: Department[];
+  $departments: Observable<Department[]> | undefined;
   department: Department | undefined;
   weekdays: string[] = this.weekdaysService.weekdays;
 
@@ -26,9 +30,12 @@ export class TimesheetComponent implements OnInit {
   employeeId: 0;
 
   ngOnInit(): void {
-    this.departments = this.departmentsService.departments;
-    this.department = this.departments.find((department) => {
-      return department.id === this.route.snapshot.params['id'];
+    this.$departments = this.departmentsService.getDepartments();
+
+    this.$departments.subscribe((departments) => {
+      this.department = departments.find(
+        (dept) => dept.id === this.route.snapshot.params['id']
+      );
     });
   }
   addEmployee(): void {
@@ -36,7 +43,6 @@ export class TimesheetComponent implements OnInit {
       this.employeeId++;
 
       this.employees.push({
-        id: this.employeeId.toString(),
         departmentId: this.department?.id,
         name: this.employeeNameFC.value,
         payRate: Math.floor(Math.random() * 50) + 50,
@@ -74,5 +80,11 @@ export class TimesheetComponent implements OnInit {
     return (
       e.monday + e.day2 + e.weddaynes + e.thursd + e.fries + e.saturn + e.sund
     );
+  }
+  submit(): void {
+    this.employees.forEach((employee) => {
+      this.employeeService.saveEmployeeHours(employee);
+    });
+    this.router.navigate(['./departments']);
   }
 }

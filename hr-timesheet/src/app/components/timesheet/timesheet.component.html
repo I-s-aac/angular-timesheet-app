@@ -18,6 +18,7 @@
         color="primary"
         (click)="addEmployee()"
         [disabled]="employeeNameFC.invalid"
+        style="margin-left: 15px; margin-bottom: 15px"
       >
         <!-- disabling a button doesn't prevent a user from re-enabling it by modifying the html -->
         <mat-icon>add</mat-icon>
@@ -52,6 +53,14 @@
           </tr>
         </tbody>
       </table>
+      <button
+        mat-raised-button
+        color="primary"
+        class="submit"
+        (click)="submit()"
+      >
+        Submit
+      </button>
     </mat-card>
   </div>
 </div>
