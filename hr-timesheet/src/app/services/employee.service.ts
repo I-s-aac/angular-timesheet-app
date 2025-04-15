@@ -5,11 +5,14 @@ import {
   collection,
   collectionData,
   addDoc,
+  updateDoc,
   CollectionReference,
   query,
+  where,
+  doc,
 } from '@angular/fire/firestore';
 import { map, Observable } from 'rxjs';
-import { where } from 'firebase/firestore';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -21,8 +24,12 @@ export class EmployeeService {
     this.employees = collection(this.firestore, 'employee-hours');
   }
 
-  async saveEmployeeHours(e: Employee): Promise<any> {
-    await addDoc(this.employees, e);
+  saveEmployeeHours(e: Employee): void {
+    addDoc(this.employees, e);
+  }
+  updateEmployeeHours(e: Employee): void {
+    const { id, ...employee } = e;
+    updateDoc(doc(this.firestore, 'employee-hours', id), employee);
   }
 
   getEmployeeHoursByDepartment(departmentId: string): Observable<Employee[]> {

@@ -92,12 +92,12 @@ export class TimesheetComponent implements OnInit {
   }
   submit(): void {
     this.employees.forEach((employee) => {
-      this.employeeService.saveEmployeeHours(employee);
+      if (employee.id) {
+        this.employeeService.updateEmployeeHours(employee);
+      } else {
+        this.employeeService.saveEmployeeHours(employee);
+      }
     });
     this.router.navigate(['./departments']);
-  }
-  thing: any;
-  test(): void {
-    this.thing = this.employeeService.getEmployeeHoursByDepartment('1');
   }
 }
