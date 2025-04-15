@@ -6,7 +6,7 @@ import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
 import { Employee } from '../../interfaces/employee';
 import { WeekdaysService } from '../../services/weekdays.service';
 import { EmployeeService } from '../../services/employee.service';
-import { Observable } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-timesheet',
@@ -32,11 +32,20 @@ export class TimesheetComponent implements OnInit {
   ngOnInit(): void {
     this.$departments = this.departmentsService.getDepartments();
 
-    this.$departments.subscribe((departments) => {
-      this.department = departments.find(
-        (dept) => dept.id === this.route.snapshot.params['id']
-      );
-    });
+    this.$departments
+      .pipe(
+        switchMap((departments) => {
+          this.department = departments.find(
+            (dept) => dept.id === this.route.snapshot.params['id']
+          );
+          // this basically just returns the employee, not just their hours
+          return this.employeeService.getEmployeeHoursByDepartment(
+            this.department.id
+          );
+        }),
+        tap((employees) => (this.employees = employees))
+      )
+      .subscribe();
   }
   addEmployee(): void {
     if (this.employeeNameFC.value) {
@@ -86,5 +95,9 @@ export class TimesheetComponent implements OnInit {
       this.employeeService.saveEmployeeHours(employee);
     });
     this.router.navigate(['./departments']);
+  }
+  thing: any;
+  test(): void {
+    this.thing = this.employeeService.getEmployeeHoursByDepartment('1');
   }
 }
