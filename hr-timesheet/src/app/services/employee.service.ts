@@ -9,6 +9,7 @@ import {
   CollectionReference,
   query,
   where,
+  deleteDoc,
   doc,
 } from '@angular/fire/firestore';
 import { map, Observable } from 'rxjs';
@@ -54,5 +55,9 @@ export class EmployeeService {
         }))
       )
     );
+  }
+
+  deleteEmployeeHours(employee: Employee): void {
+    deleteDoc(doc(this.firestore, 'employee-hours', employee.id));
   }
 }

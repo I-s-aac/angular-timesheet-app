@@ -67,7 +67,9 @@ export class TimesheetComponent implements OnInit {
       this.employeeNameFC.setValue('');
     }
   }
-  deleteEmployee(index: number): void {
+  deleteEmployee(employee: Employee, index: number): void {
+    this.employeeService.deleteEmployeeHours(employee);
+
     this.employees.splice(index, 1);
   }
   nameValidator(): ValidatorFn {
